@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Minimizacion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+  <!-- <script src="main.js"></script> -->
+</head>
+<body>
+  <div class="card">
+    <div id="input-field">
+      <input id="statesNum" type="number">
+      <label for="statesNum">Numero de estados</label>
+    </div>
+    <div id="input-field">
+      <input id="entriesNum" type="number">
+      <label for="entriesNum">Numero de estados</label>
+    </div>
+    <div class="card">
+      <table>
+        <tbody id="table"></tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    statesNum = document.getElementById('statesNum');
+    statesNum.addEventListener('change', function(){
+      var trows = [].slice.call(document.getElementsByClassName('trow'));
+      for(let j = trows.length; j > 0;j--){
+        trows.pop().remove();
+      }
+      for(let i = 0; i < this.value; i++){
+        var table = '<tr class="trow">';
+        table += '<td>Q'+i+'</td>';
+        table += '</tr>';
+        document.getElementById("table").innerHTML += table;
+
+      }
+    });
+    var tt = {
+        titulos: ['final', 'a', 'b'],
+        estado1: [false, 'estado0', 'estado1'],
+        estado2: [true, 'estado1', 'estado0']
+      };
+
+      console.log(tt);
+  
+  </script>
+</body>
+</html>

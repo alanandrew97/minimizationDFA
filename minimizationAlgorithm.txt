@@ -1,0 +1,16 @@
+
+var tt = {
+  titulos : ['final', 'a', 'b'],
+  estado1 : [false, 'estado0', 'estado1'],
+  estado2 : [true, 'estado1', 'estado0']
+};
+
+console.log(tt);
+
+
+
+
+
+
+
+
