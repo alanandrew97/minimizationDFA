@@ -49,6 +49,22 @@
     }
   }
 
+  echo 'Final: ';
+  printArray($final);
+  echo 'No final: ';
+  printArray($notFinal);
+
+  array_push( $groups, $notFinal );
+  array_push( $groups, $final );
+
+  // Separacion en grupos
+  foreach ($states as $i => $state) {
+    if ( $state->isFinal() ) {
+      for ($j=0; $j < count($groups); $j++) {
+        
+      }
+    }
+  }
 
   function printArray($array){
     echo '<pre>';
