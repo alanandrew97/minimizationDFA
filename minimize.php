@@ -58,13 +58,37 @@
   array_push( $groups, $final );
 
   // Separacion en grupos
+  $newGroups = array();
+  $transitions = array();
   foreach ($states as $i => $state) {
+    $transitionAux = '';
     if ( $state->isFinal() ) {
-      for ($j=0; $j < count($groups); $j++) {
-        
+      for ($j=0; $j < count($state->transitions); $j++) {
+        for ($k=0; $k < count($groups); $k++) { 
+          if( in_array($state->transitions[$j], $groups[$k]) ) {
+            $transitionAux = $transitionAux.strval($k);
+          }
+        }
       }
     }
+    if ($transitionAux != '') array_push($transitions, $transitionAux);
   }
+  
+  foreach ($states as $i => $state) {
+    $transitionAux = '';
+    if ( !$state->isFinal() ) {
+      for ($j=0; $j < count($state->transitions); $j++) {
+        for ($k=0; $k < count($groups); $k++) { 
+          if( in_array($state->transitions[$j], $groups[$k]) ) {
+            $transitionAux = $transitionAux.strval($k);
+          }
+        }
+      }
+    }
+    array_push($transitions, $transitionAux);
+  }
+
+  printArray($transitions);
 
   function printArray($array){
     echo '<pre>';
