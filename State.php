@@ -3,10 +3,19 @@
     public $initial = false;
     public $final = false;
     public $name;
+    public $groups;
     public $transitions = array();
     
     function __construct($name){
       $this->name = $name;
+    }
+
+    public function setGroups($groups){
+      $this->groups = $groups;
+    }
+
+    public function getGroups(){
+      return $this->groups;
     }
 
     public function getName(){
