@@ -198,30 +198,39 @@
     $c++;
   }
 
-  printArray($statesAux);
+  $statesToRename = array();
+  foreach ($states as $i => $state) {
+    if ($i != $state->name) {
+      $statesToRename[$i] = $state->name;
+    }
+  }
+  
+  $states = $statesAux;
+  printArray($states);
+
 
   $counter = 0;
   foreach ($states as $state) {
-    if(array_key_exists($state->name, $statesToCancel)) printArray("Estado eliminado");
-    else {
+    // if(array_key_exists($state->name, $statesToCancel)) printArray("Estado eliminado");
+    // else {
       $newState = new State($counter);
       $newState->setInitial( $state->isInitial() );
       $newState->setFinal( $state->isFinal() );
       foreach ($state->transitions as $transition) {
         if(array_key_exists($transition, $statesToCancel)) {
           $newState->addTransition($statesToCancel[$transition]);
-        } else {
-          $newState->addTransition($transition);
-        }
+        } else  if(array_key_exists($transition, $statesToRename)) {
+          $newState->addTransition($statesToRename[$transition]);
+        } else $newState->addTransition($transition);
       }
       $counter++;
       array_push($newStates, $newState);
-    }
+    // }
   }
 
   printArray($newStates);
 
-  // json_encode();
+  return json_encode($newStates);
 
 
 
