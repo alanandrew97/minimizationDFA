@@ -3,40 +3,14 @@
 
   $request = $_POST;
   $groups = array();
+  $response = array();
 
   // printArray($request['states']);
-
+  // echo json_encode($request['entriesNumber']);
   
   //Crear matriz de estados
-  $states = [];
-  foreach ($request['states'] as $i => $stateArray) {
-    $state = new State($i);
-    if(isset($stateArray['initial'])){
-      $state->setInitial(true);
-    }
-    if(isset($stateArray['final'])){
-      $state->setFinal(true);
-    }
-    array_push($states, $state);
-    // printArray($stateArray);
-    
-    //Agregar transiciones al estado
-    if ($state->isInitial() && $state->isFinal()) {
-      for ($j=0; $j < count($stateArray)-2; $j++) {
-        $state->addTransition($stateArray[$j]);
-      }
-    } else if ($state->isInitial() || $state->isFinal()){
-      for ($j=0; $j < count($stateArray)-1; $j++) { 
-        $state->addTransition($stateArray[$j]);
-      }
-    } else {
-      for ($j=0; $j < count($stateArray); $j++) { 
-        $state->addTransition($stateArray[$j]);
-      }
-    }
-    
-  }
-  printArray($states);
+  $states = createStatesMatrix($request['states']);
+  // printArray($states);
 
   //Dividir en finales y no finales
   $final = array();
@@ -49,20 +23,20 @@
     }
   }
 
-  echo 'Final: ';
-  printArray($final);
-  echo 'No final: ';
-  printArray($notFinal);
+  // echo 'Final: ';
+  // printArray($final);
+  // echo 'No final: ';
+  // printArray($notFinal);
 
   array_push( $groups, $notFinal );
   array_push( $groups, $final );
 
-  echo "GROUPS";
-  printArray($groups);
+  // echo "GROUPS";
+  // printArray($groups);
 
   // Separacion en grupos--------------------------------------------------
   do {
-    printArray(var_dump(isset($newGroups)));
+    // printArray(var_dump(isset($newGroups)));
     if ( isset($newGroups) ) $groups = $newGroups;
     $newGroups = array();
     
@@ -85,8 +59,8 @@
       }
     }
   
-    echo "Transiciones no finales totales por estado";
-    printArray($notFinalTransitions);
+    // echo "Transiciones no finales totales por estado";
+    // printArray($notFinalTransitions);
     $uniqueNotFinalTransitions = array_unique($notFinalTransitions);
     $uniqueNotFinalTransitionsAux = array();
     foreach ($uniqueNotFinalTransitions as $i => $uniqueNotFinalTransition) {
@@ -94,8 +68,8 @@
     }
     $uniqueNotFinalTransitions = $uniqueNotFinalTransitionsAux;
     //Transiciones x las cuales se creara un grupo
-    echo "Transiciones no finales unicas por estado";
-    printArray($uniqueNotFinalTransitions);
+    // echo "Transiciones no finales unicas por estado";
+    // printArray($uniqueNotFinalTransitions);
     
     //Inicializar nuevos grupos
     for ($i=0; $i < count($uniqueNotFinalTransitions); $i++) { 
@@ -121,8 +95,8 @@
       }
     }
               
-    echo "Transiciones finales totales por estado";
-    printArray($finalTransitions);
+    // echo "Transiciones finales totales por estado";
+    // printArray($finalTransitions);
     $uniqueFinalTransitions = array_unique($finalTransitions);
     $uniqueFinalTransitionsAux = array();
     foreach ($uniqueFinalTransitions as $i => $uniqueFinalTransition) {
@@ -130,8 +104,8 @@
     }
     $uniqueFinalTransitions = $uniqueFinalTransitionsAux;
     //Transiciones x las cuales se creara un grupo
-    echo "Transiciones finales unicas por estado";
-    printArray($uniqueFinalTransitions);
+    // echo "Transiciones finales unicas por estado";
+    // printArray($uniqueFinalTransitions);
   
     //Inicializar nuevos grupos
     for ($i=0; $i < count($uniqueFinalTransitions); $i++) { 
@@ -161,8 +135,8 @@
       }
     }
   
-    echo "newGorups";
-    printArray( $newGroups );
+    // echo "newGorups";
+    // printArray( $newGroups );
   
   } while ($groups != $newGroups);
 
@@ -181,8 +155,8 @@
     }
   }
 
-  printArray("Estados a cancelar");
-  printArray($statesToCancel);
+  // printArray("Estados a cancelar");
+  // printArray($statesToCancel);
 
   $newStates = array();
 
@@ -206,7 +180,7 @@
   }
   
   $states = $statesAux;
-  printArray($states);
+  // printArray($states);
 
 
   $counter = 0;
@@ -228,11 +202,43 @@
     // }
   }
 
-  printArray($newStates);
+  // printArray($newStates);
 
-  return json_encode($newStates);
+  array_push($response, $request['entries']);
+  array_push($response, $newStates);
+  echo json_encode($response);
 
-
+  function createStatesMatrix($array){
+    $states = [];
+    foreach ($array as $i => $stateArray) {
+      $state = new State($i);
+      if(isset($stateArray['initial'])){
+        $state->setInitial(true);
+      }
+      if(isset($stateArray['final'])){
+        $state->setFinal(true);
+      }
+      array_push($states, $state);
+      // printArray($stateArray);
+      
+      //Agregar transiciones al estado
+      if ($state->isInitial() && $state->isFinal()) {
+        for ($j=0; $j < count($stateArray)-2; $j++) {
+          $state->addTransition($stateArray[$j]);
+        }
+      } else if ($state->isInitial() || $state->isFinal()){
+        for ($j=0; $j < count($stateArray)-1; $j++) { 
+          $state->addTransition($stateArray[$j]);
+        }
+      } else {
+        for ($j=0; $j < count($stateArray); $j++) { 
+          $state->addTransition($stateArray[$j]);
+        }
+      }
+      
+    }
+    return $states;
+  }
 
   function printArray($array){
     echo '<pre>';

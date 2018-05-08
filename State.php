@@ -5,7 +5,7 @@
     public $name;
     public $groups;
     public $transitions = array();
-    
+
     function __construct($name){
       $this->name = $name;
     }

@@ -10,7 +10,7 @@
   <script src="js/main.js"></script>
 </head>
 <body>
-  <form action="minimize.php" method="post">
+  <form id="form" action="minimize.php" method="post">
     <div id="numbers" class="card">
       <div class="input-field">
         <label for="entriesNumber">Número de entradas:</label>
@@ -24,7 +24,7 @@
 
     <div id="tableContainer" class="card">
       <h4>Tabla de transiciones:</h4>
-      <table>
+      <table id="tt">
         <thead>
           <tr>
             <th>Estados</th>
@@ -39,5 +39,24 @@
       <button type="submit">Minimizar</button>
     </div>
   </form>
+
+  <div id="answer" style="display: none;" class="card">
+    <h4>Autómata minimizado</h5>
+    <h5>Tabla de transiciones:</h4>
+    <form id="answerForm" action="#" method="post">
+      <table id="ttAnswer">
+        <thead>
+          <tr>
+            <th>Estados</th>
+            <th>Inicial</th>
+            <th>Final</th>
+          </tr>
+        </thead>
+        <tbody>
+  
+        </tbody>
+      </table>
+    </form>
+  </div>
 </body>
 </html>
